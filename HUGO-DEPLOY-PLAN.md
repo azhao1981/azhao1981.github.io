@@ -59,14 +59,143 @@
 
 
 **第二阶段 - Hugo 集成**
-1. 初始化 Hugo 项目：`hugo new site .`
-2. 创建 `content/_index.md` 首页
-3. 创建 `content/posts/` 文章目录
-4. 测试本地构建：`hugo --minify`
-5. 部署到 `gh-pages` 分支
+1. 初始化 Hugo 项目：`hugo new site . --force`
+2. 创建 `content/_index.md` 首页：
+   ```bash
+   cat > content/_index.md << 'EOF'
+   ---
+   title: "欢迎来到我的博客"
+   date: 2024-01-01T00:00:00+00:00
+   ---
+   
+   # 欢迎来到我的博客
+   
+   这是一个使用 Hugo 构建的个人博客网站。
+   
+   ## 关于本站
+   
+   本网站使用 Hugo 静态网站生成器构建，部署在 GitHub Pages 上。
+   EOF
+   ```
+
+3. 创建 `content/posts/` 文章目录和示例文章：
+   ```bash
+   mkdir -p content/posts
+   cat > content/posts/示例文章.md << 'EOF'
+   ---
+   title: "第一篇文章"
+   date: 2024-01-01T00:00:00+00:00
+   draft: false
+   ---
+   
+   # 我的第一篇文章
+   
+   这是使用 Hugo 发布的第一篇文章。
+   
+   ## Hugo 简介
+   
+   Hugo 是一个快速的静态网站生成器。
+   EOF
+   ```
+
+4. 测试本地构建：
+   ```bash
+   # 如果 Hugo 提示找不到模板文件，需要先添加主题
+   git submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book
+   
+   # 配置主题到 hugo.toml
+   echo "theme = 'hugo-book'" >> hugo.toml
+   
+   # 重新构建
+   hugo --minify --cleanDestinationDir
+   ls -la public/
+   
+   # 测试本地服务器：hugo server -D
+   ```
+
+5. 部署到 `gh-pages` 分支：
+   ```bash
+   cd public
+   git add .
+   git commit -m "Hugo 构建部署: $(date '+%Y-%m-%d %H:%M:%S')"
+   git push origin gh-pages
+   cd ..
+   ```
 
 **第三阶段 - 主题配置**
 1. 添加主题：`git submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book`
-2. 配置 `hugo.toml` 文件
+2. 配置 `hugo.toml` 文件：
+   ```bash
+   cat > hugo.toml << 'EOF'
+   baseURL = 'https://azhao1981.github.io/'
+   languageCode = 'zh-cn'
+   title = 'AI重构你的知识体系'
+   theme = 'hugo-book'
+   
+   [params]
+   BookToC = true
+   BookSection = 'docs'
+   
+   [markup.goldmark.renderer]
+   unsafe = true
+   EOF
+   ```
 3. 创建文档结构 `content/docs/`
-4. 最终部署验证
+4. 更新首页显示最新文档：
+   ```bash
+   cat > content/_index.md << 'EOF'
+   ---
+   title: "欢迎来到我的博客"
+   date: 2024-01-01T00:00:00+00:00
+   ---
+   
+   # 欢迎来到我的博客
+   
+   这是一个使用 Hugo 构建的个人博客网站。
+   
+   ## 关于本站
+   
+   本网站使用 Hugo 静态网站生成器构建，部署在 GitHub Pages 上。
+   
+   ## 最新文档
+   
+   - [Hugo GitHub Pages 部署计划]({{< ref "posts/hugo-github-pages" >}})
+   EOF
+   ```
+5. 最终部署验证：
+   ```bash
+   hugo --minify --cleanDestinationDir
+   cd public
+   git add .
+   git commit -m "最终部署: $(date '+%Y-%m-%d %H:%M:%S')"
+   git push origin gh-pages
+   cd ..
+   ```
+
+## 故障排除
+
+### 常见问题
+
+1. **Hugo 构建失败，提示找不到模板**
+   - 解决：添加主题 `git submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book`
+
+2. **YAML front matter 格式错误**
+   - 解决：确保 `---` 前后没有空格，日期格式正确
+
+3. **public/index.html 没有生成**
+   - 解决：检查 `content/_index.md` 文件格式和内容
+
+4. **首页不显示最新文档**
+   - 解决：使用短代码 `{{< ref "posts/文件名" >}}` 添加链接
+
+### 验证命令
+```bash
+# 检查构建结果
+ls -la public/index.html
+
+# 检查文章是否生成
+ls -la public/posts/
+
+# 本地测试
+hugo server -D
+```
