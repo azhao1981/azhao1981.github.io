@@ -1,10 +1,8 @@
 ---
 title: "Hugo GitHub Pages 部署计划"
-date: 2024-01-01T00:00:00+00:00
+date: 2025-08-16T00:00:00+00:00
 draft: false
 ---
-
-# Hugo GitHub Pages 部署计划
 
 本文详细记录了如何使用 Hugo 静态网站生成器和 GitHub Pages 构建个人博客网站的完整过程。
 
@@ -234,7 +232,7 @@ curl -s -o /dev/null -w "%{http_code}" https://yourusername.github.io
 
 ---
 
-**发布时间**: 2024-01-01  
+**发布时间**: 2025-08-17  
 **最后更新**: 2025-08-17  
 **部署状态**: ✅ 已完成并正常运行
 

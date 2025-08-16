@@ -1,6 +1,6 @@
 baseURL = 'https://azhao1981.github.io/'
 languageCode = 'zh-cn'
-title = 'AI重构你的知识体系'
+title = 'AI重构知识体系'
 theme = 'hugo-book'
 
 [params]
