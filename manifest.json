@@ -1,0 +1,15 @@
+{
+  "name": "AI重构你的知识体系",
+  "short_name": "AI重构你的知识体系",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512"
+    }
+  ]
+}
