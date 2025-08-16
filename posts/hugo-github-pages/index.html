@@ -1,19 +1,373 @@
-<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content='
   Hugo GitHub Pages 部署计划
   
   #
   
 
-这是使用 Hugo 发布的第一篇文章，详细记录了如何使用 Hugo 和 GitHub Pages 构建个人博客网站。
+本文详细记录了如何使用 Hugo 静态网站生成器和 GitHub Pages 构建个人博客网站的完整过程。
 
-  部署概要
+  🎯 部署概要
   
   #
   
 
-本网站使用 Hugo 静态网站生成器构建，部署在 GitHub Pages 上。完整部署计划请参考项目根目录的 HUGO-DEPLOY-PLAN.md 文件。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://azhao1981.github.io/posts/hugo-github-pages/"><meta property="og:site_name" content="AI重构你的知识体系"><meta property="og:title" content="Hugo GitHub Pages 部署计划"><meta property="og:description" content="Hugo GitHub Pages 部署计划 # 这是使用 Hugo 发布的第一篇文章，详细记录了如何使用 Hugo 和 GitHub Pages 构建个人博客网站。
-部署概要 # 本网站使用 Hugo 静态网站生成器构建，部署在 GitHub Pages 上。完整部署计划请参考项目根目录的 HUGO-DEPLOY-PLAN.md 文件。"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2024-01-01T00:00:00+00:00"><title>Hugo GitHub Pages 部署计划 | AI重构你的知识体系</title><link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=https://azhao1981.github.io/posts/hugo-github-pages/><link rel=stylesheet href=/book.min.ce742184041b67827be505801d71b6b40c09608dfb292033ea54dbbc1d71a174.css integrity="sha256-znQhhAQbZ4J75QWAHXG2tAwJYI37KSAz6lTbvB1xoXQ=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.4360b2e81e4872f58f86b0750f150fb33db8f7a6cff280cc5e4e5e2dfeb0fcd7.js integrity="sha256-Q2Cy6B5IcvWPhrB1DxUPsz2496bP8oDMXk5eLf6w/Nc=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-posts"><input type=checkbox class="hidden toggle" id=menu-control>
-<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>AI重构你的知识体系</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Hugo GitHub Pages 部署计划</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#部署概要>部署概要</a></li></ul></nav></aside></header><article class="markdown book-post"><h1>Hugo GitHub Pages 部署计划</h1><div class="flex align-center text-small book-post-date"><img src=/svg/calendar.svg class=book-icon alt>
+目标: 使用 Hugo 构建个人博客，通过 GitHub Pages 托管
+网站地址: https://azhao1981.github.io
+部署状态: 已成功部署并运行
+
+  技术栈
+  
+  #
+  
+
+
+Hugo 静态网站生成器
+GitHub Pages 托管服务
+hugo-book 主题
+Git 版本控制
+
+
+  🚀 快速部署指南
+  
+  #
+  
+
+
+  自动部署（推荐）
+  
+  #
+  
+
+创建部署脚本 deploy.sh：
+#!/bin/bash
+
+set -e
+
+echo "🚀 开始部署 Hugo 网站..."
+
+# 构建 Hugo 网站
+echo "📦 构建 Hugo 网站..."
+hugo --minify --cleanDestinationDir
+
+if [ $? -ne 0 ]; then
+    echo "❌ Hugo 构建失败"
+    exit 1
+fi
+
+echo "✅ Hugo 构建成功"
+
+# 进入 public 目录并提交更改
+echo "📤 部署到 GitHub Pages..."
+cd public
+
+# 添加所有更改
+git add .
+
+# 检查是否有更改需要提交
+if git diff --staged --quiet; then
+    echo "ℹ️  没有更改需要提交"
+    exit 0
+fi
+
+# 提交更改
+git commit -m "自动部署: $(date &#39;+%Y-%m-%d %H:%M:%S&#39;)"
+
+# 推送到远程仓库
+git push origin gh-pages
+
+echo "🎉 部署成功！"
+echo "🌐 网站地址: https://yourusername.github.io"
+
+  手动部署
+  
+  #
+  
+
+# 构建 Hugo 网站
+hugo --minify --cleanDestinationDir
+
+# 提交并推送
+cd public
+git add .
+git commit -m "手动部署: $(date &#39;+%Y-%m-%d %H:%M:%S&#39;)"
+git push origin gh-pages
+cd ..
+
+  📋 详细部署步骤
+  
+  #
+  
+
+
+  第一阶段 - 基础验证
+  
+  #
+  
+
+
+创建 gh-pages 分支
+添加 Hello World 页面
+配置 GitHub Pages 设置
+验证网站可访问
+
+
+  第二阶段 - Hugo 集成
+  
+  #
+  
+
+
+初始化 Hugo 项目：hugo new site . --force
+创建首页和文章内容
+添加主题配置
+测试本地构建
+
+
+  第三阶段 - 主题配置
+  
+  #
+  
+
+
+添加 hugo-book 主题
+配置 hugo.toml 文件
+创建文档结构
+完善网站功能
+
+
+  🔧 配置说明
+  
+  #
+  
+
+
+  Hugo 配置文件 (hugo.toml)
+  
+  #
+  
+
+baseURL = &#39;https://yourusername.github.io/&#39;
+languageCode = &#39;zh-cn&#39;
+title = &#39;你的网站标题&#39;
+theme = &#39;hugo-book&#39;
+
+[params]
+BookToC = true
+BookSection = &#39;docs&#39;
+
+[markup.goldmark.renderer]
+unsafe = true
+
+  主题特性
+  
+  #
+  
+
+
+📚 响应式设计
+🔍 内置搜索功能
+🎨 支持深色/浅色主题
+💻 代码高亮
+📊 数学公式支持
+🌐 多语言支持
+
+
+  📁 项目文件结构
+  
+  #
+  
+
+your-repo/
+├── hugo.toml                 # Hugo 配置文件
+├── deploy.sh                 # 自动部署脚本
+├── content/                  # 网站内容
+│   ├── _index.md            # 首页
+│   └── posts/               # 博客文章
+├── themes/                   # Hugo 主题
+│   └── hugo-book/           # hugo-book 主题
+├── public/                   # 构建输出（gh-pages 分支）
+└── HUGO-DEPLOY-PLAN.md      # 部署计划文档
+
+  📝 内容管理
+  
+  #
+  
+
+
+  创建新文章
+  
+  #
+  
+
+# 创建新文章
+hugo new posts/文章标题.md
+
+# 编辑文章
+vim content/posts/文章标题.md
+
+  文章格式示例
+  
+  #
+  
+
+---
+title: "文章标题"
+date: 2024-01-01T00:00:00+00:00
+draft: false
+---
+
+# 文章标题
+
+这里是文章内容...
+
+## 小节标题
+
+更多内容...
+
+  🛠️ 常见问题解决
+  
+  #
+  
+
+
+  1. Hugo 构建失败，提示找不到模板
+  
+  #
+  
+
+解决: 添加主题'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="https://azhao1981.github.io/posts/hugo-github-pages/"><meta property="og:site_name" content="AI重构你的知识体系"><meta property="og:title" content="Hugo GitHub Pages 部署计划"><meta property="og:description" content='Hugo GitHub Pages 部署计划 # 本文详细记录了如何使用 Hugo 静态网站生成器和 GitHub Pages 构建个人博客网站的完整过程。
+🎯 部署概要 # 目标: 使用 Hugo 构建个人博客，通过 GitHub Pages 托管
+网站地址: https://azhao1981.github.io
+部署状态: 已成功部署并运行
+技术栈 # Hugo 静态网站生成器 GitHub Pages 托管服务 hugo-book 主题 Git 版本控制 🚀 快速部署指南 # 自动部署（推荐） # 创建部署脚本 deploy.sh：
+#!/bin/bash set -e echo "🚀 开始部署 Hugo 网站..." # 构建 Hugo 网站 echo "📦 构建 Hugo 网站..." hugo --minify --cleanDestinationDir if [ $? -ne 0 ]; then echo "❌ Hugo 构建失败" exit 1 fi echo "✅ Hugo 构建成功" # 进入 public 目录并提交更改 echo "📤 部署到 GitHub Pages..." cd public # 添加所有更改 git add . # 检查是否有更改需要提交 if git diff --staged --quiet; then echo "ℹ️ 没有更改需要提交" exit 0 fi # 提交更改 git commit -m "自动部署: $(date &#39;+%Y-%m-%d %H:%M:%S&#39;)" # 推送到远程仓库 git push origin gh-pages echo "🎉 部署成功！" echo "🌐 网站地址: https://yourusername.github.io" 手动部署 # # 构建 Hugo 网站 hugo --minify --cleanDestinationDir # 提交并推送 cd public git add . git commit -m "手动部署: $(date &#39;+%Y-%m-%d %H:%M:%S&#39;)" git push origin gh-pages cd .. 📋 详细部署步骤 # 第一阶段 - 基础验证 # 创建 gh-pages 分支 添加 Hello World 页面 配置 GitHub Pages 设置 验证网站可访问 第二阶段 - Hugo 集成 # 初始化 Hugo 项目：hugo new site . --force 创建首页和文章内容 添加主题配置 测试本地构建 第三阶段 - 主题配置 # 添加 hugo-book 主题 配置 hugo.toml 文件 创建文档结构 完善网站功能 🔧 配置说明 # Hugo 配置文件 (hugo.toml) # baseURL = &#39;https://yourusername.github.io/&#39; languageCode = &#39;zh-cn&#39; title = &#39;你的网站标题&#39; theme = &#39;hugo-book&#39; [params] BookToC = true BookSection = &#39;docs&#39; [markup.goldmark.renderer] unsafe = true 主题特性 # 📚 响应式设计 🔍 内置搜索功能 🎨 支持深色/浅色主题 💻 代码高亮 📊 数学公式支持 🌐 多语言支持 📁 项目文件结构 # your-repo/ ├── hugo.toml # Hugo 配置文件 ├── deploy.sh # 自动部署脚本 ├── content/ # 网站内容 │ ├── _index.md # 首页 │ └── posts/ # 博客文章 ├── themes/ # Hugo 主题 │ └── hugo-book/ # hugo-book 主题 ├── public/ # 构建输出（gh-pages 分支） └── HUGO-DEPLOY-PLAN.md # 部署计划文档 📝 内容管理 # 创建新文章 # # 创建新文章 hugo new posts/文章标题.md # 编辑文章 vim content/posts/文章标题.md 文章格式示例 # --- title: "文章标题" date: 2024-01-01T00:00:00+00:00 draft: false --- # 文章标题 这里是文章内容... ## 小节标题 更多内容... 🛠️ 常见问题解决 # 1. Hugo 构建失败，提示找不到模板 # 解决: 添加主题'><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2024-01-01T00:00:00+00:00"><title>Hugo GitHub Pages 部署计划 | AI重构你的知识体系</title><link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=https://azhao1981.github.io/posts/hugo-github-pages/><link rel=stylesheet href=/book.min.ce742184041b67827be505801d71b6b40c09608dfb292033ea54dbbc1d71a174.css integrity="sha256-znQhhAQbZ4J75QWAHXG2tAwJYI37KSAz6lTbvB1xoXQ=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.1cf50f822b4d74fd0869124f13978b9666c5b70a0117e544aea625bce2368fb2.js integrity="sha256-HPUPgitNdP0IaRJPE5eLlmbFtwoBF+VErqYlvOI2j7I=" crossorigin=anonymous></script></head><body dir=ltr class="book-kind-page book-type-posts"><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>AI重构你的知识体系</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Hugo GitHub Pages 部署计划</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#-部署概要>🎯 部署概要</a><ul><li><a href=#技术栈>技术栈</a></li></ul></li><li><a href=#-快速部署指南>🚀 快速部署指南</a><ul><li><a href=#自动部署推荐>自动部署（推荐）</a></li><li><a href=#手动部署>手动部署</a></li></ul></li><li><a href=#-详细部署步骤>📋 详细部署步骤</a><ul><li><a href=#第一阶段---基础验证>第一阶段 - 基础验证</a></li><li><a href=#第二阶段---hugo-集成>第二阶段 - Hugo 集成</a></li><li><a href=#第三阶段---主题配置>第三阶段 - 主题配置</a></li></ul></li><li><a href=#-配置说明>🔧 配置说明</a><ul><li><a href=#hugo-配置文件-hugotoml>Hugo 配置文件 (hugo.toml)</a></li><li><a href=#主题特性>主题特性</a></li></ul></li><li><a href=#-项目文件结构>📁 项目文件结构</a></li><li><a href=#-内容管理>📝 内容管理</a><ul><li><a href=#创建新文章>创建新文章</a></li><li><a href=#文章格式示例>文章格式示例</a></li></ul></li><li><a href=#-常见问题解决>🛠️ 常见问题解决</a><ul><li><a href=#1-hugo-构建失败提示找不到模板>1. Hugo 构建失败，提示找不到模板</a></li><li><a href=#2-yaml-front-matter-格式错误>2. YAML front matter 格式错误</a></li><li><a href=#3-publicindexhtml-没有生成>3. public/index.html 没有生成</a></li><li><a href=#4-首页不显示最新文档>4. 首页不显示最新文档</a></li><li><a href=#5-主题样式不生效>5. 主题样式不生效</a></li></ul></li><li><a href=#-验证命令>🔍 验证命令</a></li><li><a href=#-下一步计划>🎯 下一步计划</a><ul><li><a href=#内容扩展>内容扩展</a></li><li><a href=#功能增强>功能增强</a></li><li><a href=#性能优化>性能优化</a></li></ul></li><li><a href=#-部署心得>💡 部署心得</a></li><li><a href=#-参考资源>📚 参考资源</a></li></ul></nav></aside></header><article class="markdown book-post"><h1>Hugo GitHub Pages 部署计划</h1><div class="flex align-center text-small book-post-date"><img src=/svg/calendar.svg class=book-icon alt>
 <span>January 1, 2024</span></div><div class=book-post-content><h1 id=hugo-github-pages-部署计划>Hugo GitHub Pages 部署计划
-<a class=anchor href=#hugo-github-pages-%e9%83%a8%e7%bd%b2%e8%ae%a1%e5%88%92>#</a></h1><p>这是使用 Hugo 发布的第一篇文章，详细记录了如何使用 Hugo 和 GitHub Pages 构建个人博客网站。</p><h2 id=部署概要>部署概要
-<a class=anchor href=#%e9%83%a8%e7%bd%b2%e6%a6%82%e8%a6%81>#</a></h2><p>本网站使用 Hugo 静态网站生成器构建，部署在 GitHub Pages 上。完整部署计划请参考项目根目录的 <code>HUGO-DEPLOY-PLAN.md</code> 文件。</p></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#部署概要>部署概要</a></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#hugo-github-pages-%e9%83%a8%e7%bd%b2%e8%ae%a1%e5%88%92>#</a></h1><p>本文详细记录了如何使用 Hugo 静态网站生成器和 GitHub Pages 构建个人博客网站的完整过程。</p><h2 id=-部署概要>🎯 部署概要
+<a class=anchor href=#-%e9%83%a8%e7%bd%b2%e6%a6%82%e8%a6%81>#</a></h2><p><strong>目标</strong>: 使用 Hugo 构建个人博客，通过 GitHub Pages 托管<br><strong>网站地址</strong>: <a href=https://azhao1981.github.io>https://azhao1981.github.io</a><br><strong>部署状态</strong>: 已成功部署并运行</p><h3 id=技术栈>技术栈
+<a class=anchor href=#%e6%8a%80%e6%9c%af%e6%a0%88>#</a></h3><ul><li>Hugo 静态网站生成器</li><li>GitHub Pages 托管服务</li><li>hugo-book 主题</li><li>Git 版本控制</li></ul><h2 id=-快速部署指南>🚀 快速部署指南
+<a class=anchor href=#-%e5%bf%ab%e9%80%9f%e9%83%a8%e7%bd%b2%e6%8c%87%e5%8d%97>#</a></h2><h3 id=自动部署推荐>自动部署（推荐）
+<a class=anchor href=#%e8%87%aa%e5%8a%a8%e9%83%a8%e7%bd%b2%e6%8e%a8%e8%8d%90>#</a></h3><p>创建部署脚本 <code>deploy.sh</code>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>set -e
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;🚀 开始部署 Hugo 网站...&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 构建 Hugo 网站</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;📦 构建 Hugo 网站...&#34;</span>
+</span></span><span style=display:flex><span>hugo --minify --cleanDestinationDir
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> $? -ne <span style=color:#ae81ff>0</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;❌ Hugo 构建失败&#34;</span>
+</span></span><span style=display:flex><span>    exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;✅ Hugo 构建成功&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 进入 public 目录并提交更改</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;📤 部署到 GitHub Pages...&#34;</span>
+</span></span><span style=display:flex><span>cd public
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 添加所有更改</span>
+</span></span><span style=display:flex><span>git add .
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 检查是否有更改需要提交</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> git diff --staged --quiet; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;ℹ️  没有更改需要提交&#34;</span>
+</span></span><span style=display:flex><span>    exit <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 提交更改</span>
+</span></span><span style=display:flex><span>git commit -m <span style=color:#e6db74>&#34;自动部署: </span><span style=color:#66d9ef>$(</span>date <span style=color:#e6db74>&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 推送到远程仓库</span>
+</span></span><span style=display:flex><span>git push origin gh-pages
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;🎉 部署成功！&#34;</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;🌐 网站地址: https://yourusername.github.io&#34;</span>
+</span></span></code></pre></div><h3 id=手动部署>手动部署
+<a class=anchor href=#%e6%89%8b%e5%8a%a8%e9%83%a8%e7%bd%b2>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 构建 Hugo 网站</span>
+</span></span><span style=display:flex><span>hugo --minify --cleanDestinationDir
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 提交并推送</span>
+</span></span><span style=display:flex><span>cd public
+</span></span><span style=display:flex><span>git add .
+</span></span><span style=display:flex><span>git commit -m <span style=color:#e6db74>&#34;手动部署: </span><span style=color:#66d9ef>$(</span>date <span style=color:#e6db74>&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>git push origin gh-pages
+</span></span><span style=display:flex><span>cd ..
+</span></span></code></pre></div><h2 id=-详细部署步骤>📋 详细部署步骤
+<a class=anchor href=#-%e8%af%a6%e7%bb%86%e9%83%a8%e7%bd%b2%e6%ad%a5%e9%aa%a4>#</a></h2><h3 id=第一阶段---基础验证>第一阶段 - 基础验证
+<a class=anchor href=#%e7%ac%ac%e4%b8%80%e9%98%b6%e6%ae%b5---%e5%9f%ba%e7%a1%80%e9%aa%8c%e8%af%81>#</a></h3><ol><li>创建 <code>gh-pages</code> 分支</li><li>添加 Hello World 页面</li><li>配置 GitHub Pages 设置</li><li>验证网站可访问</li></ol><h3 id=第二阶段---hugo-集成>第二阶段 - Hugo 集成
+<a class=anchor href=#%e7%ac%ac%e4%ba%8c%e9%98%b6%e6%ae%b5---hugo-%e9%9b%86%e6%88%90>#</a></h3><ol><li>初始化 Hugo 项目：<code>hugo new site . --force</code></li><li>创建首页和文章内容</li><li>添加主题配置</li><li>测试本地构建</li></ol><h3 id=第三阶段---主题配置>第三阶段 - 主题配置
+<a class=anchor href=#%e7%ac%ac%e4%b8%89%e9%98%b6%e6%ae%b5---%e4%b8%bb%e9%a2%98%e9%85%8d%e7%bd%ae>#</a></h3><ol><li>添加 hugo-book 主题</li><li>配置 <code>hugo.toml</code> 文件</li><li>创建文档结构</li><li>完善网站功能</li></ol><h2 id=-配置说明>🔧 配置说明
+<a class=anchor href=#-%e9%85%8d%e7%bd%ae%e8%af%b4%e6%98%8e>#</a></h2><h3 id=hugo-配置文件-hugotoml>Hugo 配置文件 (hugo.toml)
+<a class=anchor href=#hugo-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6-hugotoml>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml><span style=display:flex><span><span style=color:#a6e22e>baseURL</span> = <span style=color:#e6db74>&#39;https://yourusername.github.io/&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>languageCode</span> = <span style=color:#e6db74>&#39;zh-cn&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>title</span> = <span style=color:#e6db74>&#39;你的网站标题&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>theme</span> = <span style=color:#e6db74>&#39;hugo-book&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[<span style=color:#a6e22e>params</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>BookToC</span> = <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>BookSection</span> = <span style=color:#e6db74>&#39;docs&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[<span style=color:#a6e22e>markup</span>.<span style=color:#a6e22e>goldmark</span>.<span style=color:#a6e22e>renderer</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>unsafe</span> = <span style=color:#66d9ef>true</span>
+</span></span></code></pre></div><h3 id=主题特性>主题特性
+<a class=anchor href=#%e4%b8%bb%e9%a2%98%e7%89%b9%e6%80%a7>#</a></h3><ul><li>📚 响应式设计</li><li>🔍 内置搜索功能</li><li>🎨 支持深色/浅色主题</li><li>💻 代码高亮</li><li>📊 数学公式支持</li><li>🌐 多语言支持</li></ul><h2 id=-项目文件结构>📁 项目文件结构
+<a class=anchor href=#-%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84>#</a></h2><pre tabindex=0><code>your-repo/
+├── hugo.toml                 # Hugo 配置文件
+├── deploy.sh                 # 自动部署脚本
+├── content/                  # 网站内容
+│   ├── _index.md            # 首页
+│   └── posts/               # 博客文章
+├── themes/                   # Hugo 主题
+│   └── hugo-book/           # hugo-book 主题
+├── public/                   # 构建输出（gh-pages 分支）
+└── HUGO-DEPLOY-PLAN.md      # 部署计划文档
+</code></pre><h2 id=-内容管理>📝 内容管理
+<a class=anchor href=#-%e5%86%85%e5%ae%b9%e7%ae%a1%e7%90%86>#</a></h2><h3 id=创建新文章>创建新文章
+<a class=anchor href=#%e5%88%9b%e5%bb%ba%e6%96%b0%e6%96%87%e7%ab%a0>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 创建新文章</span>
+</span></span><span style=display:flex><span>hugo new posts/文章标题.md
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 编辑文章</span>
+</span></span><span style=display:flex><span>vim content/posts/文章标题.md
+</span></span></code></pre></div><h3 id=文章格式示例>文章格式示例
+<a class=anchor href=#%e6%96%87%e7%ab%a0%e6%a0%bc%e5%bc%8f%e7%a4%ba%e4%be%8b>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span>---
+</span></span><span style=display:flex><span>title: &#34;文章标题&#34;
+</span></span><span style=display:flex><span>date: 2024-01-01T00:00:00+00:00
+</span></span><span style=display:flex><span>draft: false
+</span></span><span style=display:flex><span>---
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span># 文章标题
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>这里是文章内容...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 小节标题
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>更多内容...
+</span></span></code></pre></div><h2 id=-常见问题解决>🛠️ 常见问题解决
+<a class=anchor href=#-%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e8%a7%a3%e5%86%b3>#</a></h2><h3 id=1-hugo-构建失败提示找不到模板>1. Hugo 构建失败，提示找不到模板
+<a class=anchor href=#1-hugo-%e6%9e%84%e5%bb%ba%e5%a4%b1%e8%b4%a5%e6%8f%90%e7%a4%ba%e6%89%be%e4%b8%8d%e5%88%b0%e6%a8%a1%e6%9d%bf>#</a></h3><p><strong>解决</strong>: 添加主题</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git submodule add https://github.com/alex-shpak/hugo-book.git themes/hugo-book
+</span></span></code></pre></div><h3 id=2-yaml-front-matter-格式错误>2. YAML front matter 格式错误
+<a class=anchor href=#2-yaml-front-matter-%e6%a0%bc%e5%bc%8f%e9%94%99%e8%af%af>#</a></h3><p><strong>解决</strong>: 确保 <code>---</code> 前后没有空格，日期格式正确</p><h3 id=3-publicindexhtml-没有生成>3. public/index.html 没有生成
+<a class=anchor href=#3-publicindexhtml-%e6%b2%a1%e6%9c%89%e7%94%9f%e6%88%90>#</a></h3><p><strong>解决</strong>: 检查 <code>content/_index.md</code> 文件格式和内容</p><h3 id=4-首页不显示最新文档>4. 首页不显示最新文档
+<a class=anchor href=#4-%e9%a6%96%e9%a1%b5%e4%b8%8d%e6%98%be%e7%a4%ba%e6%9c%80%e6%96%b0%e6%96%87%e6%a1%a3>#</a></h3><p><strong>解决</strong>: 在首页内容中使用 Hugo 的 ref 短代码添加文章链接，具体格式参考 Hugo 官方文档</p><h3 id=5-主题样式不生效>5. 主题样式不生效
+<a class=anchor href=#5-%e4%b8%bb%e9%a2%98%e6%a0%b7%e5%bc%8f%e4%b8%8d%e7%94%9f%e6%95%88>#</a></h3><p><strong>解决</strong>: 确保 <code>hugo.toml</code> 中 <code>theme = 'hugo-book'</code> 配置正确</p><h2 id=-验证命令>🔍 验证命令
+<a class=anchor href=#-%e9%aa%8c%e8%af%81%e5%91%bd%e4%bb%a4>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 检查构建结果</span>
+</span></span><span style=display:flex><span>ls -la public/index.html
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 检查文章是否生成</span>
+</span></span><span style=display:flex><span>ls -la public/posts/
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 本地测试</span>
+</span></span><span style=display:flex><span>hugo server -D
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 检查网站是否可访问</span>
+</span></span><span style=display:flex><span>curl -s -o /dev/null -w <span style=color:#e6db74>&#34;%{http_code}&#34;</span> https://yourusername.github.io
+</span></span></code></pre></div><h2 id=-下一步计划>🎯 下一步计划
+<a class=anchor href=#-%e4%b8%8b%e4%b8%80%e6%ad%a5%e8%ae%a1%e5%88%92>#</a></h2><h3 id=内容扩展>内容扩展
+<a class=anchor href=#%e5%86%85%e5%ae%b9%e6%89%a9%e5%b1%95>#</a></h3><ul><li>添加更多技术文章</li><li>创建文档分类</li><li>添加标签系统</li></ul><h3 id=功能增强>功能增强
+<a class=anchor href=#%e5%8a%9f%e8%83%bd%e5%a2%9e%e5%bc%ba>#</a></h3><ul><li>添加评论系统</li><li>集成 Google Analytics</li><li>添加 RSS 订阅</li></ul><h3 id=性能优化>性能优化
+<a class=anchor href=#%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96>#</a></h3><ul><li>图片优化</li><li>缓存策略</li><li>CDN 集成</li></ul><h2 id=-部署心得>💡 部署心得
+<a class=anchor href=#-%e9%83%a8%e7%bd%b2%e5%bf%83%e5%be%97>#</a></h2><ol><li><strong>分阶段验证</strong>: 每个阶段都要确保功能正常再进行下一步</li><li><strong>自动化部署</strong>: 使用脚本可以大大简化部署流程</li><li><strong>版本控制</strong>: 保持源码和部署文件的分离管理</li><li><strong>主题选择</strong>: 选择成熟的主题可以节省大量开发时间</li><li><strong>中文支持</strong>: 确保 Hugo 配置中的语言设置正确</li></ol><h2 id=-参考资源>📚 参考资源
+<a class=anchor href=#-%e5%8f%82%e8%80%83%e8%b5%84%e6%ba%90>#</a></h2><ul><li><a href=https://gohugo.io/documentation/>Hugo 官方文档</a></li><li><a href=https://github.com/alex-shpak/hugo-book>hugo-book 主题文档</a></li><li><a href=https://pages.github.com/>GitHub Pages 官方文档</a></li><li><a href=https://git-scm.com/doc>Git 基础教程</a></li></ul><hr><p><strong>发布时间</strong>: 2024-01-01<br><strong>最后更新</strong>: 2025-08-17<br><strong>部署状态</strong>: ✅ 已完成并正常运行</p><p>通过这个完整的部署计划，你可以轻松搭建自己的 Hugo 博客网站。如果遇到问题，可以参考故障排除部分或者查看官方文档。</p></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#-部署概要>🎯 部署概要</a><ul><li><a href=#技术栈>技术栈</a></li></ul></li><li><a href=#-快速部署指南>🚀 快速部署指南</a><ul><li><a href=#自动部署推荐>自动部署（推荐）</a></li><li><a href=#手动部署>手动部署</a></li></ul></li><li><a href=#-详细部署步骤>📋 详细部署步骤</a><ul><li><a href=#第一阶段---基础验证>第一阶段 - 基础验证</a></li><li><a href=#第二阶段---hugo-集成>第二阶段 - Hugo 集成</a></li><li><a href=#第三阶段---主题配置>第三阶段 - 主题配置</a></li></ul></li><li><a href=#-配置说明>🔧 配置说明</a><ul><li><a href=#hugo-配置文件-hugotoml>Hugo 配置文件 (hugo.toml)</a></li><li><a href=#主题特性>主题特性</a></li></ul></li><li><a href=#-项目文件结构>📁 项目文件结构</a></li><li><a href=#-内容管理>📝 内容管理</a><ul><li><a href=#创建新文章>创建新文章</a></li><li><a href=#文章格式示例>文章格式示例</a></li></ul></li><li><a href=#-常见问题解决>🛠️ 常见问题解决</a><ul><li><a href=#1-hugo-构建失败提示找不到模板>1. Hugo 构建失败，提示找不到模板</a></li><li><a href=#2-yaml-front-matter-格式错误>2. YAML front matter 格式错误</a></li><li><a href=#3-publicindexhtml-没有生成>3. public/index.html 没有生成</a></li><li><a href=#4-首页不显示最新文档>4. 首页不显示最新文档</a></li><li><a href=#5-主题样式不生效>5. 主题样式不生效</a></li></ul></li><li><a href=#-验证命令>🔍 验证命令</a></li><li><a href=#-下一步计划>🎯 下一步计划</a><ul><li><a href=#内容扩展>内容扩展</a></li><li><a href=#功能增强>功能增强</a></li><li><a href=#性能优化>性能优化</a></li></ul></li><li><a href=#-部署心得>💡 部署心得</a></li><li><a href=#-参考资源>📚 参考资源</a></li></ul></nav></div></aside></main></body></html>
