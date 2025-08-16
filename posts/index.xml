@@ -1,10 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on AI重构知识体系</title><link>https://azhao1981.github.io/posts/</link><description>Recent content in Posts on AI重构知识体系</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 16 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://azhao1981.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo GitHub Pages 部署计划</title><link>https://azhao1981.github.io/posts/hugo-github-pages/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://azhao1981.github.io/posts/hugo-github-pages/</guid><description>&lt;h1 id="hugo-github-pages-部署计划">
- Hugo GitHub Pages 部署计划
- 
- &lt;a class="anchor" href="#hugo-github-pages-%e9%83%a8%e7%bd%b2%e8%ae%a1%e5%88%92">#&lt;/a>
- 
-&lt;/h1>
-&lt;p>本文详细记录了如何使用 Hugo 静态网站生成器和 GitHub Pages 构建个人博客网站的完整过程。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on AI重构知识体系</title><link>https://azhao1981.github.io/posts/</link><description>Recent content in Posts on AI重构知识体系</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 16 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://azhao1981.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo GitHub Pages 部署计划</title><link>https://azhao1981.github.io/posts/hugo-github-pages/</link><pubDate>Sat, 16 Aug 2025 00:00:00 +0000</pubDate><guid>https://azhao1981.github.io/posts/hugo-github-pages/</guid><description>&lt;p>本文详细记录了如何使用 Hugo 静态网站生成器和 GitHub Pages 构建个人博客网站的完整过程。&lt;/p>
 &lt;h2 id="-部署概要">
  🎯 部署概要
  
